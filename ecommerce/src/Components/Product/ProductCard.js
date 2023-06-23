@@ -1,7 +1,8 @@
+import './ProductCard.css'
 
 export default function ProductCard(properties){
     return(
-        <div class="product-card">
+        <div className="product-card">
             <h3> Product Card</h3>
             <p>Title : {properties.title} </p>
             <p>Price : {properties.price} </p>

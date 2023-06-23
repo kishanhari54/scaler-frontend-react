@@ -1,0 +1,10 @@
+.product-card{
+    padding: 5px;
+    background-color: black;
+    color:white;
+    border-radius: 5px;
+    margin:5px auto;
+    width:200px;
+    display:flex;
+
+}
