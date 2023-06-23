@@ -1,5 +1,5 @@
-import ProductCard from "./ProductCard"
-
+import {ProductCard} from "../Product-Card"
+import "./productList.css"
 /*
 export default function ProductList(){
     return(
@@ -11,7 +11,7 @@ export default function ProductList(){
 }
 */
 const products = [ {title: 'TEST' , price: '200'},{title: 'Phone' , price: '2000'}]
-export default function ProductList(){
+function ProductList(){
     return(
         <div>
         {
@@ -26,3 +26,5 @@ export default function ProductList(){
         </div>
     )
 }
+
+export {ProductList}

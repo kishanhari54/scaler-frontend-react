@@ -8,3 +8,5 @@ export default function ProductCard(properties){
             <p>Price : {properties.price} </p>
         </div>)
 }
+
+//export {ProductCard as default}

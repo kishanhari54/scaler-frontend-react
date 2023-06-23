@@ -98,3 +98,9 @@
   * Create a css file and import it in js file.
     * CSS File was "productCard.css"
     * in ProductCard.js file use " import "./productCard.css"
+
+## Named Exports and Imports
+  * We can create a index.js file for every component and export the function in this file.
+  * The advantage of this is : It helps for cleaner import statements. 
+  * Import statements can specify till folder and need not provide js name specifically.
+
