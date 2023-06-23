@@ -56,4 +56,29 @@
     }
   ```
   * To Pass Parameters , the properties can be passed in the selector and consumed it with interpolation {}
-    
+
+### Looping to render elements multiple times
+  * If you want to loop to create multiple child components. - Use Map Function.
+  * Define a Product Array ,and loop through array to create the HTML Element.
+  * We use Curly braces to define Javascript Expressions.
+  ```
+  products = [ {title: 'TEST' , price: '200'}]
+  function ProductList(){
+        return (
+            <div class="productList">
+            {products.map( 
+              
+              function( product){
+              
+                return (
+                  <ProductCard title={product.title} price={product.price}>
+                )
+              
+              }
+            )
+            }
+            
+            </div>
+        )
+    }
+  ```    
