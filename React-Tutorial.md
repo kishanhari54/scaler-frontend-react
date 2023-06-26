@@ -104,3 +104,12 @@
   * The advantage of this is : It helps for cleaner import statements. 
   * Import statements can specify till folder and need not provide js name specifically.
 
+## Mocking a API Response to Render.
+  * Lets say , we want to display Products from a function with some delay.
+* ```  
+    function getProductsAPI()
+          {
+            setTimeout( function(){ return products},1000)
+          }
+    This would give an undefined response in our Products List JSX Function
+

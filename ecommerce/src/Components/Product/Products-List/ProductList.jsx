@@ -11,7 +11,17 @@ export default function ProductList(){
 }
 */
 const products = [ {title: 'TEST' , price: '200'},{title: 'Phone' , price: '2000'}]
+
+
+function getProductsAPI(){
+  setTimeout(() => {
+    return products
+  }, 1000);
+}
+
 function ProductList(){
+  var product = getProductsAPI();
+  console.log( product)
     return(
         <div>
         {
