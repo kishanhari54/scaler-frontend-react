@@ -111,5 +111,19 @@
           {
             setTimeout( function(){ return products},1000)
           }
-    This would give an undefined response in our Products List JSX Function
+    This would give an undefined response in our Products List JSX Function , due to async nature.
+* Use a call back function as argument to getProductsAPI and pass products as parameter to this callback function inside setTimeout.
+   ```
+  products = [ {title: 'Book' , price: 20}]
+    function getProductsAPI(cb){
+      setTimeout( function() { cb(products)}, 1000)
+    }
+    function ProductsList(){
+      let product;
+      getProductsAPI( function(productsReturned) { 
+        product = productsReturned; // This assigns the array of products
+      })
+      return ( )
+    }
+    ```
 

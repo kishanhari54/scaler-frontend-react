@@ -13,22 +13,27 @@ export default function ProductList(){
 const products = [ {title: 'TEST' , price: '200'},{title: 'Phone' , price: '2000'}]
 
 
-function getProductsAPI(){
+function getProductsAPI(cb){
   setTimeout(() => {
-    return products
+    cb(products)
   }, 1000);
 }
 
 function ProductList(){
-  var product = getProductsAPI();
-  console.log( product)
+  let  product
+   getProductsAPI( function(returnedProducts){
+    product = returnedProducts;
+    console.log(product)
+   });
+   
+  
     return(
         <div>
         {
-            products.map( 
-              function( product){
+            product.map( 
+              function( product,index){
                 return (
-                  <ProductCard title={product.title} price={product.price} />
+                  <ProductCard title={product.title} price={product.price} key={index}/>
                 )
               })
             }
