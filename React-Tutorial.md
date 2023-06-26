@@ -16,7 +16,7 @@
 <br/>
 
 # Things to Learn in React.
-
+    Scaler Codebox: https://codesandbox.io/s/react-sessions-7cnm7x?file=/src/App.js
 
 
 <br/>
@@ -104,26 +104,153 @@
   * The advantage of this is : It helps for cleaner import statements. 
   * Import statements can specify till folder and need not provide js name specifically.
 
-## Mocking a API Response to Render.
-  * Lets say , we want to display Products from a function with some delay.
-* ```  
+<br/>
+
+## State Variable
+### Mocking a API Response to Render. -- Issue Explained with async calls
+  * Attempt 1: Lets say , we want to display Products from a function with some delay.
+     ```  
+    products = [ {title: 'Book' , price: 20}]
     function getProductsAPI()
           {
             setTimeout( function(){ return products},1000)
           }
-    This would give an undefined response in our Products List JSX Function , due to async nature.
-* Use a call back function as argument to getProductsAPI and pass products as parameter to this callback function inside setTimeout.
-   ```
-  products = [ {title: 'Book' , price: 20}]
-    function getProductsAPI(cb){
-      setTimeout( function() { cb(products)}, 1000)
-    }
+      
     function ProductsList(){
-      let product;
-      getProductsAPI( function(productsReturned) { 
-        product = productsReturned; // This assigns the array of products
-      })
-      return ( )
+        let product = getProductsAPI();
+      return (
+         <div>
+        {
+            product.map( 
+              function( product,index){
+                return (
+                  <ProductCard title={product.title} price={product.price} key={index}/>
+                )
+              })
+            }
+      
+        </div>
+       )
     }
-    ```
 
+  
+<mark> Note: 
+     This would give an undefined response in our Products List JSX Function , due to async nature.
+     </mark>
+
+*  Attempt 2 : Use a call back function as argument to getProductsAPI and pass products as parameter to this callback function inside setTimeout.
+
+      ```
+        products = [ {title: 'Book' , price: 20}]
+          function getProductsAPI(cb){
+            setTimeout( function() { cb(products)}, 1000)
+          }
+          function ProductsList(){
+            let product;
+            getProductsAPI( function(productsReturned) { 
+              product = productsReturned; // This assigns the array of products
+            })
+            return (
+              <div>
+              {
+                  product.map( 
+                    function( product,index){
+                      return (
+                        <ProductCard title={product.title} price={product.price} key={index}/>
+                      )
+                    })
+                  }
+            
+              </div>
+            )
+          }
+     ```
+  <mark>
+   Even this would throw an error as product.map will expect an array to be available - but it would be assigned the array value later. Hence we need "state"
+   </mark>
+    
+<br/>
+
+  * Hence we need  State Variable :-A Variable--> when assigned a value , the UI will to be re-rendered 
+
+  ## React Hooks
+
+  *
+     Hooks are some helper functions --> we have some available from React and we can create our custom hooks if needed
+
+     *  useName  -
+     *  useState -  A Helper function which will create a state variable
+        *  returns : [ stateVariable  , setterFunctionForState]
+              *  Use Setter Function to set the value of State variable.
+                 *   Code: 
+                      ```
+
+                       function getProductsList(){
+                        const productsState = useState([]);
+                        let  allProducts = productsState[0]; // Variable to hold value
+                        let  setAllProducts = productsState[1]; // Setter Function to set Varialbe value
+                        
+                        getProductsAPI( function(returnedProducts){
+                          setAllProducts(returnedProducts)
+                        });
+                           
+                          
+                          return (
+                              <div>
+                              {
+                                allProducts.map( 
+                                  function( product,index){
+                                    return (
+                                      <ProductCard title={product.title} price={product.price} key={index}/>
+                                    )
+                                  })
+                                }
+                          
+                              </div>
+                              )
+                          } 
+                      ```
+                    * Loader
+                        *  Till the data is loading , the spinner can be displayed
+                        *  Create a Loader Component , Display it initially , once data has reached --> render the actual DOM.
+                        * Have a flag --> isLoading , initailly its true, once data has arrived ,its set to false.
+                        * We might have to useState here as well --> os once variable is changed ,the page is re-rendered to hide loading indicator again.
+                        * Code:
+                         ```
+                               function ProductList() {
+                                            const productsState = useState([]);
+                                            let allProducts = productsState[0];
+                                            let setAllProducts = productsState[1];
+
+                                            let [isLoading, setLoading] = useState(true);  // Destructured Syntax of JS
+
+                                            getProductsAPI(function (returnedProducts) {
+                                              setAllProducts(returnedProducts);
+                                              setLoading(false);
+                                            });
+
+                                            if (isLoading) {
+                                              return <div>Loading</div>;
+                                            } else {
+                                              return (
+                                                <div>
+                                                  {allProducts.map(function (product, index) {
+                                                    return (
+                                                      <ProductCard
+                                                        title={product.title}
+                                                        price={product.price}
+                                                        key={index}
+                                                      />
+                                                    );
+                                                  })}
+                                                </div>
+                                              );
+                                            }
+                                          }
+                               ```
+                    <mark>Performance Drawback</mark>
+
+                    * Mounting (Component Loading):- Initially once Page was set. 
+                    * UnMounting (Component Updating):
+                        *  Now Data was loaded --> useState made page to re-render once
+                        *  Now Loading was set --> useState made the page to re-render once again.

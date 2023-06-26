@@ -1,5 +1,6 @@
-import {ProductCard} from "../Product-Card"
-import "./productList.css"
+import { ProductCard } from "../Product-Card";
+import "./productList.css";
+import { useState } from "react";
 /*
 export default function ProductList(){
     return(
@@ -10,9 +11,13 @@ export default function ProductList(){
     )
 }
 */
-const products = [ {title: 'TEST' , price: '200'},{title: 'Phone' , price: '2000'}]
+const products = [
+  { title: "TEST", price: "200" },
+  { title: "Phone", price: "2000" },
+];
 
-
+//Attempt  2:
+/*
 function getProductsAPI(cb){
   setTimeout(() => {
     cb(products)
@@ -30,7 +35,7 @@ function ProductList(){
     return(
         <div>
         {
-            product.map( 
+            products.map( 
               function( product,index){
                 return (
                   <ProductCard title={product.title} price={product.price} key={index}/>
@@ -42,4 +47,43 @@ function ProductList(){
     )
 }
 
-export {ProductList}
+*/
+
+function getProductsAPI(cb) {
+  setTimeout(() => {
+    cb(products);
+  }, 1000);
+}
+
+function ProductList() {
+  const productsState = useState([]);
+  let allProducts = productsState[0];
+  let setAllProducts = productsState[1];
+
+  let [isLoading, setLoading] = useState(true); // Destructured Syntax of Variable Assignment - JS Feature.
+
+  getProductsAPI(function (returnedProducts) {
+    setAllProducts(returnedProducts);
+    setLoading(false);
+  });
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  } else {
+    return (
+      <div>
+        {allProducts.map(function (product, index) {
+          return (
+            <ProductCard
+              title={product.title}
+              price={product.price}
+              key={index}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+}
+
+export { ProductList };
