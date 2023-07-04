@@ -1,6 +1,6 @@
 import { ProductCard } from "../Product-Card";
 import "./productList.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 /*
 export default function ProductList(){
     return(
@@ -12,8 +12,8 @@ export default function ProductList(){
 }
 */
 const products = [
-  { title: "TEST", price: "200" },
-  { title: "Phone", price: "2000" },
+  { title: "TEST", price: "200" ,id:1},
+  { title: "Phone", price: "2000",id:2 },
 ];
 
 //Attempt  2:
@@ -62,10 +62,13 @@ function ProductList() {
 
   let [isLoading, setLoading] = useState(true); // Destructured Syntax of Variable Assignment - JS Feature.
 
+  useEffect( () => { console.log('Use Effect Called')
   getProductsAPI(function (returnedProducts) {
     setAllProducts(returnedProducts);
     setLoading(false);
   });
+},[isLoading,allProducts])
+
 
   if (isLoading) {
     return <div>Loading</div>;
@@ -77,7 +80,7 @@ function ProductList() {
             <ProductCard
               title={product.title}
               price={product.price}
-              key={index}
+              key={product.id}
             />
           );
         })}

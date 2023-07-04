@@ -254,3 +254,45 @@
                     * UnMounting (Component Updating):
                         *  Now Data was loaded --> useState made page to re-render once
                         *  Now Loading was set --> useState made the page to re-render once again.
+     *  useEffect - Whenever a state Variable changes , if we need to do something -> useEffect hook can be used.
+        *   The Callback provided in useEffect
+            *   would be called when the function is being mounted (intiial Rendered)
+            *   would also be called when any state variables changes (unmounting) 
+            *   to prevent useEffect from executing again , pass a depedency array(with state variables references) as second parameter to its callback function , now whenever the state variables in dependency array have changed , only then useEffect will execute its callback.
+            *  Code: - allProducts and isLoading State Variables are passed in dependency array.
+                ```
+                function ProductList() {
+                            const productsState = useState([]);
+                            let allProducts = productsState[0];
+                            let setAllProducts = productsState[1];
+
+                            let [isLoading, setLoading] = useState(true);  // Destructured Syntax of JS
+
+                            useEffect( () => { 
+                              console.log('Use Effect Called')
+                              getProductsAPI(function (returnedProducts) {
+                              setAllProducts(returnedProducts);
+                              setLoading(false);
+                            });
+                            ,[allProducts,isLoading]
+                            })
+
+                            if (isLoading) {
+                              return <div>Loading</div>;
+                            } else {
+                              return (
+                                <div>
+                                  {allProducts.map(function (product, index) {
+                                    return (
+                                      <ProductCard
+                                        title={product.title}
+                                        price={product.price}
+                                        key={index}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                              );
+                            }
+                          }
+                               ```
