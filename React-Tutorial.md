@@ -296,3 +296,82 @@
                             }
                           }
                                ```
+## Global State  
+  ### Props Drilling : 
+  <br/>
+
+  * We have a AddToCart Child Component ,which needs to store the information of products which has been added to Cart.
+     * Since in ProductCard , We have this ChildComponent of AddToCart rendered ,on Click somehow we need to hold this data.
+     * so , we create a global state variable  "cart" in "App" , and pass this state to every child component.
+     * Code:
+        * In App Function , we create Cart state variable
+          '''
+              
+              function App() {
+                        const [cart,setCart] = useState({});
+                        return (
+                          <div className="App">
+                                <ProductList cart={cart}/> 
+                          </div>
+                        );
+                      }
+
+                  // In Product List Component , this will be passed in
+                    function productCard(){
+                      <ProductCard
+                        title={product.title}
+                        price={product.price}
+                        key={product.id}
+                        cart={props.cart}
+                      />
+                    }   
+                    
+                    // In Product Card , this will be passed to AddToCart
+                      export default function ProductCard(properties){
+                        return(
+                            <div className="product-card">
+                            <h3> Product Card</h3>
+                            <p>Title : {properties.title} </p>
+                            <p>Price : {properties.price} </p>
+                            <AddToCart cart={properties.cart}></AddToCart>
+                        </div>)
+                    } 
+                    
+        '''
+
+   * To Increase Quantity in Cart   
+     * have a function in "App" which gets product as input and updates the cart state variable
+          ```
+          function App(){ 
+              const [cart, setCart] = useState({});
+
+              function increaseCartQuantity(product) {
+                const newCart = { ...cart }; // Get Reference to State Variable
+                // If No Item , Set default
+                if (!newCart[product.id]) {
+                  newCart[product.id] = {
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    quantity: 0,
+                  };
+                }
+
+                newCart[product.id].quantity += 1;
+                setCart(newCart);
+              }
+          }
+
+          //Products List and Card , is supposed to pass this increaseCartQuantity function in Props
+
+          export default function AddToCart(properties){
+                   function addQuantity(){
+                        properties.increaseCartQuantity(properties.product);
+                        console.log(properties.cart)
+                    }
+                    return (
+                            <button onClick={addQuantity}>Add To Cart</button>
+                          )
+                }
+          ```
+     * Now do  "Prop Drilling" of this function with all components (ProductList , ProductCard, AddToCard) and when AddToCart is Clicked , call this function.

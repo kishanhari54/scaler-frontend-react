@@ -48,14 +48,25 @@ function ProductList(){
 }
 
 */
-
+/*
 function getProductsAPI(cb) {
   setTimeout(() => {
     cb(products);
   }, 1000);
+}*/
+
+function getProductsAPI(){
+  
+ /* return new Promise((resolve,reject) => {
+    setTimeout( ()=> {
+    resolve(products)
+  },1500)
+  })
+*/
+  return fetch("https://fakestoreapi.com/products").then( (data) => data.json())
 }
 
-function ProductList() {
+function ProductList(props) {
   const productsState = useState([]);
   let allProducts = productsState[0];
   let setAllProducts = productsState[1];
@@ -63,24 +74,30 @@ function ProductList() {
   let [isLoading, setLoading] = useState(true); // Destructured Syntax of Variable Assignment - JS Feature.
 
   useEffect( () => { console.log('Use Effect Called')
-  getProductsAPI(function (returnedProducts) {
+  /*getProductsAPI(function (returnedProducts) {
     setAllProducts(returnedProducts);
     setLoading(false);
-  });
-},[isLoading,allProducts])
+  });*/
+  getProductsAPI().then( (data) => {
+    setAllProducts(data);
+    setLoading(false);
+  },(err)=>{console.log('Error'); setLoading(false)})
+},[]) 
+//[isLoading,allProducts])
 
 
   if (isLoading) {
     return <div>Loading</div>;
   } else {
     return (
-      <div>
+      <div className="productList">
         {allProducts.map(function (product, index) {
           return (
             <ProductCard
-              title={product.title}
-              price={product.price}
+              product = {product}
               key={product.id}
+              cart={props.cart}
+              increaseCartQuantity={props.increaseCartQuantity}
             />
           );
         })}

@@ -1,10 +1,8 @@
 .product-card{
-    padding: 5px;
-    background-color: black;
-    color:white;
-    border-radius: 5px;
-    margin:5px auto;
-    width:200px;
+    border-top-left-radius: 5px;
+    border: 2px solid black;
     display:flex;
-
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
 }

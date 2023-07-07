@@ -1,0 +1,7 @@
+.productList{
+    display: flex;
+    flex-flow: column wrap;
+    gap:5px;
+    max-width:100%;
+    overflow:auto;
+}
