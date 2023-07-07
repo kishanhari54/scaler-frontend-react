@@ -297,7 +297,7 @@
                           }
                                ```
 ## Global State  
-  ### Props Drilling : 
+   ### Props Drilling : 
   <br/>
 
   * We have a AddToCart Child Component ,which needs to store the information of products which has been added to Cart.
@@ -398,4 +398,23 @@
               }
             }
           ```
-     
+          * NOTE:  Whenever we add/remove the quantity, since the state variable at App level ,changes ,all the child components are being re-rendered (Too costly) - Hence we need some way to handle this and solution was - <mark>Redux State Management.</mark>
+
+## Redux State Management
+  * For Managing States and updating UI - Redux State management can be used.
+  * React gave "Context API" to do the same thing.
+    ### Context API - of React
+
+
+
+
+
+
+<br/>
+
+## To Display Icons - Ratings Component
+  *  We install packages @mdi/react and @mdi/js
+     *  import Icon from "@mdi/react";
+        import { mdiStar } from "@mdi/js";
+      * Icon provides a container to display the icon 
+      *  mdi/js provides all material design icons 
