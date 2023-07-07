@@ -98,6 +98,7 @@ function ProductList(props) {
               key={product.id}
               cart={props.cart}
               increaseCartQuantity={props.increaseCartQuantity}
+              decreaseCartQuantity = {props.decreaseCartQuantity}
             />
           );
         })}

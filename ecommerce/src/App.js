@@ -18,10 +18,17 @@ function App() {
     newCart[product.id].quantity += 1;
     setCart(newCart);
   }
+  function decreaseCartQuantity(product) {
+    const newCart = { ...cart }; // Get Reference to State Variable
+    if (!newCart[product.id]) { return;
+    }
+    newCart[product.id].quantity -= 1;
+    setCart(newCart);
+  }
 
   return (
     <div className="App">
-      <ProductList cart={cart} increaseCartQuantity={increaseCartQuantity}/>
+      <ProductList cart={cart} increaseCartQuantity={increaseCartQuantity} decreaseCartQuantity={decreaseCartQuantity}/>
     </div>
   );
 }

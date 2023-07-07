@@ -6,7 +6,7 @@ export default function ProductCard(properties){
             <h3> Product Card</h3>
             <p>Title : {properties.product.title} </p>
             <p>Price : {properties.product.price} </p>
-            <AddToCart product={properties.product} cart={properties.cart} increaseCartQuantity={properties.increaseCartQuantity}></AddToCart>
+            <AddToCart product={properties.product} cart={properties.cart} increaseCartQuantity={properties.increaseCartQuantity} decreaseCartQuantity={properties.decreaseCartQuantity}></AddToCart>
         </div>)
 }
 

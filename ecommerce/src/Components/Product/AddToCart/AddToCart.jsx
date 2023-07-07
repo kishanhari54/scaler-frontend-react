@@ -1,10 +1,23 @@
+export default function AddToCart(properties) {
+  function addQuantity() {
+    properties.increaseCartQuantity(properties.product);
+    console.log(properties.cart);
+  }
+  function subQuantity() {
+    properties.decreaseCartQuantity(properties.product);
+    console.log(properties.cart);
+  }
+  let quantity = properties.cart[properties.product.id]?.quantity || 0;
 
-export default function AddToCart(properties){
-    function addQuantity(){
-        properties.increaseCartQuantity(properties.product);
-        console.log(properties.cart)
-    }
+  if (quantity > 0) {
     return (
-        <button onClick={addQuantity}>Add To Cart</button>
-    )
+      <div>
+        <button onClick={addQuantity}> + </button>
+        <span>{quantity}</span>
+        <button onClick={subQuantity}> - </button>
+      </div>
+    );
+  } else {
+    return <button onClick={addQuantity}>Add To Cart</button>;
+  }
 }

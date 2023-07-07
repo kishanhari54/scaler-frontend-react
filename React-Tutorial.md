@@ -341,6 +341,7 @@
 
    * To Increase Quantity in Cart   
      * have a function in "App" which gets product as input and updates the cart state variable
+      * Now do  "Prop Drilling" of this function with all components (ProductList , ProductCard, AddToCard) and when AddToCart is Clicked , call this function.
           ```
           function App(){ 
               const [cart, setCart] = useState({});
@@ -360,18 +361,41 @@
                 newCart[product.id].quantity += 1;
                 setCart(newCart);
               }
+                function decreaseCartQuantity(product) {
+                  const newCart = { ...cart }; // Get Reference to State Variable
+                  if (!newCart[product.id]) { return;
+                  }
+                  newCart[product.id].quantity -= 1;
+                  setCart(newCart);
+                }
           }
 
           //Products List and Card , is supposed to pass this increaseCartQuantity function in Props
 
-          export default function AddToCart(properties){
-                   function addQuantity(){
-                        properties.increaseCartQuantity(properties.product);
-                        console.log(properties.cart)
-                    }
-                    return (
-                            <button onClick={addQuantity}>Add To Cart</button>
-                          )
-                }
+
+          // In Add To Cart Component 
+            export default function AddToCart(properties) {
+              function addQuantity() {
+                properties.increaseCartQuantity(properties.product);
+                console.log(properties.cart);
+              }
+              function subQuantity() {
+                properties.decreaseCartQuantity(properties.product);
+                console.log(properties.cart);
+              }
+              let quantity = properties.cart[properties.product.id]?.quantity || 0;
+
+              if (quantity > 0) {
+                return (
+                  <div>
+                    <button onClick={addQuantity}> + </button>
+                    <span>{quantity}</span>
+                    <button onClick={subQuantity}> - </button>
+                  </div>
+                );
+              } else {
+                return <button onClick={addQuantity}>Add To Cart</button>;
+              }
+            }
           ```
-     * Now do  "Prop Drilling" of this function with all components (ProductList , ProductCard, AddToCard) and when AddToCart is Clicked , call this function.
+     
