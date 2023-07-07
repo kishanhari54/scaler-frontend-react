@@ -23,6 +23,9 @@ function App() {
     if (!newCart[product.id]) { return;
     }
     newCart[product.id].quantity -= 1;
+    if(newCart[product.id].quantity == 0) {
+      delete newCart[product.id];
+    }
     setCart(newCart);
   }
 
