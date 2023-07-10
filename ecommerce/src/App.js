@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { ProductList } from "./Components/Product/";
+import{default as cartContext} from "./Context/Cart.Context"
 function App() {
   const [cart, setCart] = useState({});
 
@@ -30,9 +31,13 @@ function App() {
   }
 
   return (
+    <cartContext.Provider
+    value={{cart,increaseCartQuantity,decreaseCartQuantity}}
+    >
     <div className="App">
-      <ProductList cart={cart} increaseCartQuantity={increaseCartQuantity} decreaseCartQuantity={decreaseCartQuantity}/>
+      <ProductList />
     </div>
+    </cartContext.Provider>
   );
 }
 

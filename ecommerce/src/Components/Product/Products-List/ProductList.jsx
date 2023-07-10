@@ -96,9 +96,6 @@ function ProductList(props) {
             <ProductCard
               product = {product}
               key={product.id}
-              cart={props.cart}
-              increaseCartQuantity={props.increaseCartQuantity}
-              decreaseCartQuantity = {props.decreaseCartQuantity}
             />
           );
         })}

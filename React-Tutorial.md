@@ -404,7 +404,70 @@
   * For Managing States and updating UI - Redux State management can be used.
   * React gave "Context API" to do the same thing.
     ### Context API - of React
+       *  Create a Context Folder - and Create CartContext.js
+          *  Define
+             *  Context - Global State
+             *  Provider - pseudo Parent
+             *  Selector - Extract global state in component
+          *  ```
+              const cartContext = createContext( { 
+                  cart : {},
+                  increaseQuantity: ()=>{},
+                  decreaseQuantity: ()=>{}
+              })
+              ```
+          * ```
+            // Create Provider wrapper on parent and it can be used in any child
 
+            function App() {
+                const [cart, setCart] = useState({});
+
+                function increaseCartQuantity(product) {
+                  const newCart = { ...cart }; // Get Reference to State Variable
+                  if (!newCart[product.id]) {
+                    newCart[product.id] = {
+                      id: product.id,
+                      title: product.title,
+                      price: product.price,
+                      quantity: 0,
+                    };
+                  }
+
+                  newCart[product.id].quantity += 1;
+                  setCart(newCart);
+                }
+                function decreaseCartQuantity(product) {
+                  const newCart = { ...cart }; // Get Reference to State Variable
+                  if (!newCart[product.id]) { return;
+                  }
+                  newCart[product.id].quantity -= 1;
+                  if(newCart[product.id].quantity == 0) {
+                    delete newCart[product.id];
+                  }
+                  setCart(newCart);
+                }
+
+                return (
+                  <cartContext.Provider
+                  value={{cart,increaseCartQuantity,decreaseCartQuantity}}
+                  >
+                  <div className="App">
+                    <ProductList />
+                  </div>
+                  </cartContext.Provider>
+                );
+            }
+            ```
+        
+     * useContext - React Hook
+       * use this hook to get global state in any child component.
+       
+       * ```
+            export default function AddToCart(properties) {
+            const{ cart, increaseCartQuantity , decreaseCartQuantity} = useContext(cartContext)
+              // Same Logic
+            }
+          ```
 
 
 

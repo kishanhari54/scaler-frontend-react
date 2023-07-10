@@ -1,13 +1,17 @@
+import { useContext } from "react";
+import cartContext from "../../../Context/Cart.Context";
+
 export default function AddToCart(properties) {
+  const{ cart, increaseCartQuantity , decreaseCartQuantity} = useContext(cartContext)
   function addQuantity() {
-    properties.increaseCartQuantity(properties.product);
-    console.log(properties.cart);
+    increaseCartQuantity(properties.product);
+    console.log(cart);
   }
   function subQuantity() {
-    properties.decreaseCartQuantity(properties.product);
-    console.log(properties.cart);
+    decreaseCartQuantity(properties.product);
+    console.log(cart);
   }
-  let quantity = properties.cart[properties.product.id]?.quantity || 0;
+  let quantity = cart[properties.product.id]?.quantity || 0;
 
   if (quantity > 0) {
     return (
