@@ -301,8 +301,7 @@
      
      * React.Memo       
          * A Child will re-render ,if the state has changed in parent even if there is no dependency for this child component and the state that has changed. This re-rendering is waste of resource as nothing is going to change in child component.
-     
-        * React provides as <mark>React.memo</mark> - Wrap the Child Component with this and this unnecessary re-render will be prevented.
+          *  React provides as <mark>React.memo</mark> - Wrap the Child Component with this and this unnecessary re-render will be prevented.
             
               ```
                 //Code
@@ -345,6 +344,7 @@
             ```
             This issue is solved using useCallback
 
+            Example Link : https://codesandbox.io/s/laughing-volhard-747q9s?file=/src/App.js
      * useCallback 
        * This will Memoize the function and will not re-instantiate thus prevent issue that was happening with useMemo
        * Whenever we are passing a function as a Prop in Child -> the function reference should not change so it doesnt keep re-rendering if parent re-renders.
@@ -354,6 +354,27 @@
                 const incrementCount = useCallback(()=> setCount( count + 1),[count])
           }
           ```
+     * Custom hook:
+        * Scenario: We need to do something whenever window size changes
+        * We create Hooks folder and create a useWindowSize js file
+        * in useEffect , we can return a function -which will execute during unMounting phase.
+            ``` 
+             useEffect(function () {
+                function handleResize(event) {
+                  setWindowSize({
+                    width: event.target.innerWidth,
+                    height: event.target.innerHeight,
+                  });
+                }
+                window.addEventListener("resize", handleResize);
+
+                return () => {
+                  //UnMounting Phase Function
+                  window.removeEventListener("resize", handleResize);
+                };
+              }, []);
+            ```
+  
 ## Global State  
    ### Props Drilling : 
   <br/>

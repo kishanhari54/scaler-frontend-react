@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import {default as cartContext} from "../../../Context/Cart.Context";
-
+import {default as useWindowSize} from "../../../Hooks/useWindowSize"
 export default function Cart(){
     const {cart} = useContext(cartContext);
     const cartList = Object.values(cart);
+    let windowSize = useWindowSize();
+    console.log(windowSize)
+
     if(cartList.length ==0) {
         return <div> Cart is Empty</div>
     }else {
