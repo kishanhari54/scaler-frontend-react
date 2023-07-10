@@ -10,6 +10,7 @@ export default function Cart(){
         let total = cartList.reduce((total,value) => { return total+= value.price * value.quantity},0) ;
        return( 
         <div>
+            <h2>Cart </h2>
         <ol>
             {
                 cartList.map( (item) => {

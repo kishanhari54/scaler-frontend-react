@@ -178,7 +178,6 @@
   *
      Hooks are some helper functions --> we have some available from React and we can create our custom hooks if needed
 
-     *  useName  -
      *  useState -  A Helper function which will create a state variable
         *  returns : [ stateVariable  , setterFunctionForState]
               *  Use Setter Function to set the value of State variable.
@@ -254,7 +253,8 @@
                     * UnMounting (Component Updating):
                         *  Now Data was loaded --> useState made page to re-render once
                         *  Now Loading was set --> useState made the page to re-render once again.
-     *  useEffect - Whenever a state Variable changes , if we need to do something  -> useEffect hook can be used.
+     *  useEffect 
+           *  Whenever a state Variable changes , if we need to do something  -> useEffect hook can be used.
         *   The Callback provided in useEffect
             *   would be called when the function is being mounted (intiial Rendered)
             *   would also be called when any state variables changes (unmounting) 
@@ -296,18 +296,64 @@
                             }
                           }
                           ```
-     * [useContext](#redux-state-management) - has been explained in Context API Section
-     * useMenu -
-           * A Child will re-render ,if the state has changed in parent even if there is no dependency for this child component and the state that has changed. This re-rendering is waste of resource as nothing is going to change in child component.
-           * React provides as <mark>React.memo</mark> - Wrap the Child Component with this and this unnecessary re-render will be prevented.
-           
-           //Code
-           const childComponent = React.memo(function ChildComponent(){
-            return <div>No Changes</div>
-           })
+     * [useContext](#redux-state-management) 
+         *  has been explained in Context API Section
+     
+     * React.Memo       
+         * A Child will re-render ,if the state has changed in parent even if there is no dependency for this child component and the state that has changed. This re-rendering is waste of resource as nothing is going to change in child component.
+     
+        * React provides as <mark>React.memo</mark> - Wrap the Child Component with this and this unnecessary re-render will be prevented.
+            
+              ```
+                //Code
+                const childComponent = React.memo(function ChildComponent(){
+                  return <div>No Changes</div>
+                })
+                
+                export default childComponent
+              ```
 
-           export default childComponent
-           
+       *  Note: If you have a function in parent ,which you pass as props in child , --The React Memo becomes useless , as everytime the state in parent has changed , the function is re-created as new function , hence the child component keeps re-rendering.
+            
+            ```  
+              export function App(){
+                const [count,setCount] = useState();
+                const [input,setInput] = useState();
+
+                const incrementCount = ()=> setCount( count + 1)
+
+                return  (
+                  <div>
+                  <input onChange = { (e) => setInput(e.target.value)}>
+                  <button onclick={incrementCount}>Increment Count</button>
+                  <h3> Input Text: {input}</h3>
+                  <h3> Count {count}</h3>
+                  <ChildComponent count={count} onClick={incrementCount}/>
+                  </div>
+                )
+              }
+
+              const ChildComponent = function({count,onClick}){
+                return(
+                  <div>
+                  <h2>Child Component</h2>
+                  <h4>Count : {count}</h4>
+                  <button onClick={onClick}> Increment Count</button>
+                  </div>
+                )
+              }
+            ```
+            This issue is solved using useCallback
+
+     * useCallback 
+       * This will Memoize the function and will not re-instantiate thus prevent issue that was happening with useMemo
+       * Whenever we are passing a function as a Prop in Child -> the function reference should not change so it doesnt keep re-rendering if parent re-renders.
+         ```
+          // Define the callback functions that will be passed to child components in below manner 
+            export function App(){
+                const incrementCount = useCallback(()=> setCount( count + 1),[count])
+          }
+          ```
 ## Global State  
    ### Props Drilling : 
   <br/>
