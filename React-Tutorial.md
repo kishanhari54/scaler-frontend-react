@@ -254,7 +254,7 @@
                     * UnMounting (Component Updating):
                         *  Now Data was loaded --> useState made page to re-render once
                         *  Now Loading was set --> useState made the page to re-render once again.
-     *  useEffect - Whenever a state Variable changes , if we need to do something -> useEffect hook can be used.
+     *  useEffect - Whenever a state Variable changes , if we need to do something  -> useEffect hook can be used.
         *   The Callback provided in useEffect
             *   would be called when the function is being mounted (intiial Rendered)
             *   would also be called when any state variables changes (unmounting) 
@@ -295,7 +295,19 @@
                               );
                             }
                           }
-                               ```
+                          ```
+     * [useContext](#redux-state-management) - has been explained in Context API Section
+     * useMenu -
+           * A Child will re-render ,if the state has changed in parent even if there is no dependency for this child component and the state that has changed. This re-rendering is waste of resource as nothing is going to change in child component.
+           * React provides as <mark>React.memo</mark> - Wrap the Child Component with this and this unnecessary re-render will be prevented.
+           
+           //Code
+           const childComponent = React.memo(function ChildComponent(){
+            return <div>No Changes</div>
+           })
+
+           export default childComponent
+           
 ## Global State  
    ### Props Drilling : 
   <br/>

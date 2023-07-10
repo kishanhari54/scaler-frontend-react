@@ -3,7 +3,6 @@ import {default as cartContext} from "../../../Context/Cart.Context";
 
 export default function Cart(){
     const {cart} = useContext(cartContext);
-    console.log(cart);
     const cartList = Object.values(cart);
     if(cartList.length ==0) {
         return <div> Cart is Empty</div>
