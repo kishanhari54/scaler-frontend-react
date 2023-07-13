@@ -6,7 +6,7 @@ export default function Cart(){
     const cartList = Object.values(cart);
     let windowSize = useWindowSize();
     //console.log(windowSize)
-    console.log(cartList)
+    //console.log(cartList)
     if(cartList.length ==0) {
         return <div> Cart is Empty</div>
     }else {

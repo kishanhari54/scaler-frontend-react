@@ -2,7 +2,7 @@ import { ProductCard } from "../Product-Card";
 import "./productList.css";
 import { useEffect, useMemo, useState } from "react";
 import { memo } from "react";
-
+import {Link}  from  "react-router-dom";
 /*
 export default function ProductList(){
     return(
@@ -65,7 +65,7 @@ function getProductsAPI(){
   },1500)
   })
 */
-  return fetch("https://fakestoreapi.com/products").then( (data) => data.json())
+  return fetch("https://fakestoreapi.com/products").then( (data) => data.json()).catch((err)=> alert(err))
 }
 
 function ProductList(props) {
@@ -92,6 +92,9 @@ function ProductList(props) {
     return <div>Loading</div>;
   } else {
     return (
+      <>
+      <Link to="/cart"> Go To Cart</Link>
+      
       <div className="productList">
         {allProducts.map(function (product, index) {
           return (
@@ -102,6 +105,7 @@ function ProductList(props) {
           );
         })}
       </div>
+      </>
     );
   }
 }

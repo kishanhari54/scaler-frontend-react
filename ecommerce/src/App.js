@@ -1,9 +1,12 @@
 import { useState } from "react";
 import "./App.css";
-import { ProductList } from "./Components/Product/";
-import {Cart} from "./Components/Product/Cart";
+import { ProductsPage } from "./Pages/ProductsPage";
+import {CartPage} from "./Pages/CartPage";
 import{default as cartContext} from "./Context/Cart.Context"
+import { Switch , Route} from "react-router-dom"
+import { BrowserRouter } from "react-router-dom";
 function App() {
+  
   const [cart, setCart] = useState({});
 
   function increaseCartQuantity(product) {
@@ -35,10 +38,12 @@ function App() {
     <cartContext.Provider
     value={{cart,increaseCartQuantity,decreaseCartQuantity}}
     >
-    <div className="App">
-      <Cart />
-      <ProductList />
-    </div>
+      <BrowserRouter>
+      <Switch>
+        <Route exact={true} path="/" component={ProductsPage}/>
+        <Route exact={true} path="/cart" component={CartPage}/>
+      </Switch>
+      </BrowserRouter>
     </cartContext.Provider>
   );
 }

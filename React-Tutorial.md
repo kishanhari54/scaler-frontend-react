@@ -588,3 +588,24 @@
 ## React Fragment
   * If we have multiple elements in JSX ,it needs to be wrapped under one parent element - This increases DOM
   * Hence we can have something like a pseudo-parent return (<>  ...JSX...  </>)
+
+## React Router
+  * We can create pages on top of our components in a seperate folder  : "Pages"
+  * Now based on URL --> The specific page has to be loaded / routed.
+  * If we dont have a Router Library --> it becomes tedious to write "if" "else conditions to render the respective page in App.js 
+  * So we use React Router - <mark> npm i react-router-dom </mark>
+     ```
+    <BrowserRouter>
+      <Switch>
+        <Route exact={true} path="/" component={ProductsPage}/>
+        <Route exact={true} path="/cart" component={CartPage}/>
+      </Switch>
+      </BrowserRouter>
+    ```
+    * When Path Matches Exactly - It would open the coresponding component.
+    * Order of Path is also important ,(if exact={true}) is not being mentioned
+  * When we route , it refreshes the entire page, hence state is not maintained
+    * So we need to have a "Link" Tag, with "to"  attribute, so the state is managed by react.
+    * ```
+        <Link to="/cart"> Go To Cart</Link>
+      ```
