@@ -5,11 +5,11 @@ export default function AddToCart(properties) {
   const{ cart, increaseCartQuantity , decreaseCartQuantity} = useContext(cartContext)
   function addQuantity() {
     increaseCartQuantity(properties.product);
-    console.log(cart);
+    //console.log(cart);
   }
   function subQuantity() {
     decreaseCartQuantity(properties.product);
-    console.log(cart);
+    //console.log(cart);
   }
   let quantity = cart[properties.product.id]?.quantity || 0;
 

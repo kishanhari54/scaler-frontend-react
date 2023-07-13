@@ -175,8 +175,7 @@
 
   ## React Hooks
 
-  *
-     Hooks are some helper functions --> we have some available from React and we can create our custom hooks if needed
+  * Hooks are some helper functions --> we have some available from React and we can create our custom hooks if needed
 
      *  useState -  A Helper function which will create a state variable
         *  returns : [ stateVariable  , setterFunctionForState]
@@ -374,7 +373,32 @@
                 };
               }, []);
             ```
-  
+     * useRef -> 
+       * If you need to get some HTML element , rather than using DOM methods , it is suggessted to use useRef()
+       *  useRef , when value is being changed ,it doesnt trigger re-render like useState
+          
+          * ```
+            function test(){
+            let inputElement = useRef(null); // null is the initial value
+            let inputElementValue = useRef(null);
+
+              const onChange = (e => { 
+                inputElementValue.current = e.target.value
+              })
+              const onSubmit = (e) => {
+                inputElement.current.focus(); // Focusses the element.
+                console.log(inputElement.current.value()) // Consoles the value
+              }
+              return(  ...JSX... )
+            }
+            now in HTML , use this variable 
+              <input ref={inputElement}>
+              <input ref={inputElement} onChange={onChange}>
+              ```
+
+            
+            
+
 ## Global State  
    ### Props Drilling : 
   <br/>
@@ -560,3 +584,7 @@
         import { mdiStar } from "@mdi/js";
       * Icon provides a container to display the icon 
       *  mdi/js provides all material design icons 
+
+## React Fragment
+  * If we have multiple elements in JSX ,it needs to be wrapped under one parent element - This increases DOM
+  * Hence we can have something like a pseudo-parent return (<>  ...JSX...  </>)

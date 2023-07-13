@@ -1,6 +1,8 @@
 import { ProductCard } from "../Product-Card";
 import "./productList.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { memo } from "react";
+
 /*
 export default function ProductList(){
     return(
@@ -70,7 +72,7 @@ function ProductList(props) {
   const productsState = useState([]);
   let allProducts = productsState[0];
   let setAllProducts = productsState[1];
-
+  console.log('Product List')
   let [isLoading, setLoading] = useState(true); // Destructured Syntax of Variable Assignment - JS Feature.
 
   useEffect( () => { console.log('Use Effect Called')
@@ -104,4 +106,4 @@ function ProductList(props) {
   }
 }
 
-export { ProductList };
+export default memo(ProductList)
