@@ -94,7 +94,6 @@ function ProductList(props) {
     return (
       <>
       <Link to="/cart"> Go To Cart</Link>
-      
       <div className="productList">
         {allProducts.map(function (product, index) {
           return (

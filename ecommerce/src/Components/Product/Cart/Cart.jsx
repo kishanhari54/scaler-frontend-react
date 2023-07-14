@@ -1,9 +1,14 @@
 import { useContext } from "react";
 import {default as cartContext} from "../../../Context/Cart.Context";
 import {default as useWindowSize} from "../../../Hooks/useWindowSize"
+import {useSelector} from "react-redux"
 export default function Cart(){
-    const {cart} = useContext(cartContext);
-    const cartList = Object.values(cart);
+   // const {cart} = useContext(cartContext);
+   // const cartList = Object.values(cart);
+   const items = useSelector( (state)=> { 
+        return state.items
+    })
+   const cartList = Object.values(items);
     let windowSize = useWindowSize();
     //console.log(windowSize)
     //console.log(cartList)
