@@ -506,6 +506,154 @@
 ## Redux State Management
   * For Managing States and updating UI - Redux State management can be used.
   * React gave "Context API" to do the same thing.
+    ### Redux
+      * Redux has a Global Store
+        * UI Will dispatch "Actions"
+        * Based on "Actions" Reducer will be triggered
+        * "Reducer" function is supposed to update the state
+        * Flow:  Actions --> Dispatched --> Reducer --> Updates State --> Updates UI
+  
+      #### Steps
+      *  Create a Store.js file 
+        *  Using Redux --> page updates can be handled using "subscription" on key
+           * whereas Context we had --> re-renders entire components.
+    <br/>
+
+         ##### Store File
+            
+            ```
+             import { createStore } from "redux";
+              function cartReducer(state = { items: {}, action }) {
+                switch (action.type) {
+                  case "ADD_TO_CART":
+                    {
+                      const product = action.payload;
+                      // If State already has product.
+                      if (state.items[product.id]) {
+                        return {
+                          // Copy of the State , since spread is shallow copy , we are trying to make deep copy
+                          ...state,
+                          items: {
+                            ...state.items,
+                            [product.id]: {
+                              ...state.items[product.id],
+                              quantity: state.items[product.id].quantity+1,
+                            },
+                          },
+                        };
+                      } else {
+                        return {
+                          ...state,
+                          items: {
+                            ...state.items,
+                            [product.id]: {
+                              id: product.id,
+                              title: product.title,
+                              price: product.price,
+                              quantity: 1,
+                            },
+                          },
+                        };
+                      }
+                    }
+                    break;
+                  case "REMOVE_FROM_CART":
+                    {
+                      const product = action.payload;
+                      let quantity = state.items[product.id]?.quantity;
+                      if (quantity <= 1) {
+                        //Delete Product Key
+                        let obj = {
+                          ...state,
+                          items: {
+                            ...state.items,
+                          },
+                        };
+                        delete obj.items[product.id];
+                        return obj;
+                      } else {
+                        // Reduce Quantity by One.
+                        return {
+                          ...state,
+                          items: {
+                            ...state.items,
+                            [product.id]: {
+                              ...state.items[product.id],
+                              quantity: quantity - 1,
+                            },
+                          },
+                        };
+                      }
+                    }
+                    break;
+                  default:
+                    return state;
+                }
+              }
+
+              const store = createStore(cartReducer);
+              ```  
+        
+      * Now Define this store in Parent App Component  and use Provider from "React-redux" Library , so its consumable in all child components. 
+                 
+            ```
+            import {Provider } from "react-redux";
+            import {store} from "store"
+              return (
+                    //<cartContext.Provider value={{cart,increaseCartQuantity,decreaseCartQuantity}} >
+                      <Provider store={store}>
+                      <BrowserRouter>
+                      <Switch>
+                        <Route exact={true} path="/" component={ProductsPage}/>
+                        <Route exact={true} path="/cart" component={CartPage}/>
+                      </Switch>
+                      </BrowserRouter>
+                      </Provider>
+                    //</cartContext.Provider>
+                  );
+            ```
+      <br/>  
+
+      * In AddToCart Component we define 'useDispatch' and 'useSelector' to talk to store
+
+              ```
+                    import {useDispatch , useSelector} from "react-redux";
+
+                  export default function ReduxAddToCart(properties) {
+
+                          //Redux Store Info
+                      const dispatch = useDispatch();
+                      const items = useSelector( (state)=> { 
+                          return state.items[product.id].quantity || 0
+                      })
+
+                    function addQuantity() {
+                          //dispatch( { type:'string'}, payload: 'product')
+                          dispatch( { type:'ADD_TO_CART', payload: properties.product})
+                      //increaseCartQuantity(properties.product);
+                      
+                    }
+                    function subQuantity() {
+                      dispatch( { type:'REMOVE_FROM_CART', payload: properties.product})
+                      //decreaseCartQuantity(properties.product);
+                      //console.log(cart);
+                    }
+                    let quantity = cart[properties.product.id]?.quantity || 0;
+
+                    if (quantity > 0) {
+                      return (
+                        <div>
+                          <button onClick={addQuantity}> + </button>
+                          <span>{quantity}</span>
+                          <button onClick={subQuantity}> - </button>
+                        </div>
+                      );
+                    } else {
+                      return <button onClick={addQuantity}>Add To Cart</button>;
+                    }
+                  }
+              ```
+
     ### Context API - of React
        *  Create a Context Folder - and Create CartContext.js
           *  Define

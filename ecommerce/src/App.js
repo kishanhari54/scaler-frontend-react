@@ -4,7 +4,7 @@ import { ProductsPage } from "./Pages/ProductsPage";
 import {CartPage} from "./Pages/CartPage";
 import{default as cartContext} from "./Context/Cart.Context"
 import { Switch , Route} from "react-router-dom"
-import { BrowserRouter } from "react-router-dom";
+
 function App() {
   
   const [cart, setCart] = useState({});
@@ -35,16 +35,16 @@ function App() {
   }
 
   return (
-    <cartContext.Provider
-    value={{cart,increaseCartQuantity,decreaseCartQuantity}}
-    >
-      <BrowserRouter>
+    //<cartContext.Provider value={{cart,increaseCartQuantity,decreaseCartQuantity}} >
+      
+      
       <Switch>
         <Route exact={true} path="/" component={ProductsPage}/>
         <Route exact={true} path="/cart" component={CartPage}/>
       </Switch>
-      </BrowserRouter>
-    </cartContext.Provider>
+      
+
+    //</cartContext.Provider>
   );
 }
 

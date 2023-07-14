@@ -14,9 +14,9 @@ function Rating({ rating, maxRating, size }) {
             path={mdiStar}
             size={size}
             key={index}
-            color={value == 1 ? "yellow" : null}
+            color={value === 1 ? "yellow" : null}
             className={classNames("rating__star", {
-              "rating__star--active": value == 1,
+              "rating__star--active": value === 1,
             })}
           ></Icon>
         );
